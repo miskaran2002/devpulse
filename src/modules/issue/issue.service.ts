@@ -1,4 +1,5 @@
 import { pool } from "../../db";
+import type { IUpdateIssue } from "./issue.interface";
 
 interface IIssue {
   title: string;
@@ -94,7 +95,7 @@ const getAllIssuesFromDB = async (query: any) => {
 
   return formattedIssues;
 };
-
+// get single issue with reporter data
 const getSingleIssueFromDB = async (id: number) => {
 
   // get issue
@@ -137,8 +138,49 @@ const getSingleIssueFromDB = async (id: number) => {
   };
 };
 
+
+// update issue
+const updateIssueIntoDB = async (
+  id: number,
+  payload: IUpdateIssue
+) => {
+
+  // check issue exists
+  const existingIssue = await pool.query(
+    `
+    SELECT * FROM issues
+    WHERE id = $1
+    `,
+    [id]
+  );
+
+  if (existingIssue.rowCount === 0) {
+    throw new Error("Issue not found");
+  }
+
+  const { title, description, type, status } = payload;
+
+  const result = await pool.query(
+    `
+    UPDATE issues
+    SET
+      title = COALESCE($1, title),
+      description = COALESCE($2, description),
+      type = COALESCE($3, type),
+      status = COALESCE($4, status),
+      updated_at = CURRENT_TIMESTAMP
+    WHERE id = $5
+    RETURNING *
+    `,
+    [title, description, type, status, id]
+  );
+
+  return result.rows[0];
+};
+
 export const issueService = {
   createIssueIntoDB,
   getAllIssuesFromDB,
   getSingleIssueFromDB,
+  updateIssueIntoDB,
 };
