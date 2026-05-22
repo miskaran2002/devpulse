@@ -6,6 +6,7 @@ import express,
 } from 'express';
 
 import { pool } from './db';
+import { userRoute } from './modules/user/user.route';
 
 
 const app: Application = express()
@@ -33,34 +34,9 @@ app.get('/', (req: Request, res: Response) => {
 
 
 
-// create user
-app.post('/api/users', async (req: Request, res: Response) => {
-    const { name, email, password } = req.body;
-
-    try{
-         const result = await pool.query(`INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *`, [name, email, password]);
+app.use('/api/users',userRoute);
 
 
-
-    res.status(200).json({
-        "status": "success",
-        "message": "User created successfully!",
-        "data": result.rows[0]
-
-    });
-
-    }
-    catch(error: any){
-        res.status(500).json({
-            "status": "error",
-            "message": error.message,
-            "error": error
-        });
-    }
-
-   
-
-});
 
 // get all users
 
