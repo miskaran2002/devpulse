@@ -13,7 +13,7 @@ export const initDB = async () => {
     id SERIAL PRIMARY KEY,
     name VARCHAR(50),
     email VARCHAR(100) UNIQUE NOT NULL,
-    password VARCHAR(100) NOT NULL,
+    password TEXT NOT NULL,
      role VARCHAR(20) NOT NULL DEFAULT 'contributor',
 
        CONSTRAINT valid_role CHECK (
