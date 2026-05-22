@@ -59,6 +59,7 @@ const getSingleIssue = async (req: Request, res: Response) => {
 
     res.status(200).json({
       "status": "success",
+      "success": true,
       "message": "Issue retrieved successfully!",
       "data": result
     });
@@ -94,6 +95,7 @@ const updateIssue = async (req: Request, res: Response) => {
 
     res.status(200).json({
       "status": "success",
+      "success": true,
       "message": "Issue updated successfully",
       "data": result,
     });
@@ -110,9 +112,40 @@ const updateIssue = async (req: Request, res: Response) => {
   }
 };
 
+// delete issue
+
+const deleteIssue = async (req: Request, res: Response) => {
+  try {
+    const result = await issueService.deleteIssueFromDB(
+      Number(req.params.id)
+    );
+
+    if(!result){
+            return res.status(404).json({
+                "status": "error",
+                "message": "User not found!"
+            });
+        }
+
+    res.status(200).json({
+     "status": "success",
+     "success": true,
+      "message": "User deleted successfully!",
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      "status": "error",
+      "message": error.message,
+      "error": error
+    });
+  }
+};
+
 export const issueController = {
   createIssue,
   getAllIssues,
   getSingleIssue,
   updateIssue,
+  deleteIssue,
 };

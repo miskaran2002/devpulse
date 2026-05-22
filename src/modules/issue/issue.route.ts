@@ -11,5 +11,7 @@ router.get("/:id", issueController.getSingleIssue);
 
 router.patch("/:id", issueController.updateIssue);
 
+router.delete("/:id", issueController.deleteIssue);
+
 
 export const issueRoute = router;
