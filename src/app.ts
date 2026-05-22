@@ -7,6 +7,7 @@ import express,
 
 import { pool } from './db';
 import { userRoute } from './modules/user/user.route';
+import { issueRoute } from './modules/issue/issue.route';
 
 
 const app: Application = express()
@@ -15,13 +16,6 @@ const app: Application = express()
 app.use(express.json());
 app.use(express.text());
 app.use(express.urlencoded({ extended: true }));
-
-
-
-
-
-
-// server routes rest api
 
 app.get('/', (req: Request, res: Response) => {
 
@@ -34,7 +28,9 @@ app.get('/', (req: Request, res: Response) => {
 
 
 
-app.use('/api/users',userRoute);
+app.use('/api/users',userRoute); 
+app.use('/api/issues',issueRoute);
+
 
 
 
