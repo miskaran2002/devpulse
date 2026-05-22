@@ -81,7 +81,7 @@ const updateIssue = async (req: Request, res: Response) => {
       req.body
     );
 
-    if (result.rows.length === 0) {
+    if (!result ) {
 
 
       return res.status(404).json({
