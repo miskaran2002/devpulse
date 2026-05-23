@@ -7,29 +7,26 @@ import express,
 
 import { issueRoute } from './modules/issue/issue.route';
 import { authRoute } from './modules/auth/auth.route';
-
-import fs from 'fs';
+import cors from 'cors';
 import logger from './modules/middleware/logger';
+import globalErrorHandler from './modules/middleware/golbalErrorHandler';
+
+const app: Application = express();
+const corsOptions = {
+    origin: 'http://localhost:3000',
+
+}
+
+app.use(cors(corsOptions));
 
 
-const app: Application = express()
+
 
 
 app.use(express.json());
 app.use(express.text());
 app.use(express.urlencoded({ extended: true }));
-
-
-// middleware 
-
 app.use(logger);
-
-
-
-
-
-
-
 
 
 app.get('/', (req: Request, res: Response) => {
@@ -44,8 +41,10 @@ app.get('/', (req: Request, res: Response) => {
 
 
 
-app.use('/api/issues',issueRoute);
-app.use('/api/auth',authRoute);
+app.use('/api/issues', issueRoute);
+app.use('/api/auth', authRoute);
+
+app.use(globalErrorHandler);
 
 
 
