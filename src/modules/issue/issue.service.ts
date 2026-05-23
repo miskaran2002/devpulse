@@ -220,10 +220,47 @@ const deleteIssueFromDB = async (
   return result.rows[0];
 };
 
+
+const getMetricsFromDB = async (user: any) => {
+
+  // role check
+  if (user.role !== "maintainer") {
+    throw new Error("Forbidden access. Maintainer only.");
+  }
+
+  // total issues
+  const totalResult = await pool.query(
+    `SELECT COUNT(*) FROM issues`
+  );
+
+  // open issues
+  const openResult = await pool.query(
+    `SELECT COUNT(*) FROM issues WHERE status = 'open'`
+  );
+
+  // in_progress issues
+  const progressResult = await pool.query(
+    `SELECT COUNT(*) FROM issues WHERE status = 'in_progress'`
+  );
+
+  // resolved issues
+  const resolvedResult = await pool.query(
+    `SELECT COUNT(*) FROM issues WHERE status = 'resolved'`
+  );
+
+  return {
+    total: Number(totalResult.rows[0].count),
+    open: Number(openResult.rows[0].count),
+    in_progress: Number(progressResult.rows[0].count),
+    resolved: Number(resolvedResult.rows[0].count),
+  };
+};
+
 export const issueService = {
   createIssueIntoDB,
-  getAllIssuesFromDB,
+  getAllIssuesFromDB, 
   getSingleIssueFromDB,
   updateIssueIntoDB,
   deleteIssueFromDB,
+  getMetricsFromDB,
 };

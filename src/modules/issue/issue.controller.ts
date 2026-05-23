@@ -6,7 +6,7 @@ import { issueService } from "./issue.service";
 const createIssue = async (req: Request, res: Response) => {
   try {
 
-     const payload = {
+    const payload = {
       ...req.body,
       reporter_id: req.user.id,
     };
@@ -49,31 +49,35 @@ const getAllIssues = async (req: Request, res: Response) => {
 // get single issue
 const getSingleIssue = async (req: Request, res: Response) => {
   try {
-    const result = await issueService.getSingleIssueFromDB(
-      Number(req.params.id)
-    );
+
+    const id = Number(req.params.id);
+
+    if (isNaN(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid issue id",
+      });
+    }
+
+    const result = await issueService.getSingleIssueFromDB(id);
 
     if (!result) {
       return res.status(404).json({
-        "success": false,
-        "status": "error",
-        "message": "Issue not found!"
+        success: false,
+        message: "Issue not found!",
       });
-
     }
 
     res.status(200).json({
-      "status": "success",
-      "success": true,
-      "message": "Issue retrieved successfully!",
-      "data": result
+      success: true,
+      message: "Issue retrieved successfully!",
+      data: result,
     });
 
   } catch (error: any) {
     res.status(500).json({
-      "status": "error",
-      "message": error.message,
-      "error": error
+      success: false,
+      message: error.message,
     });
   }
 };
@@ -82,38 +86,35 @@ const getSingleIssue = async (req: Request, res: Response) => {
 const updateIssue = async (req: Request, res: Response) => {
   try {
 
-    const result = await issueService.updateIssueIntoDB(
-      Number(req.params.id),
-      req.body
-    );
+    const id = Number(req.params.id);
 
-    if (!result ) {
-
-
-      return res.status(404).json({
-        "status": "error",
-        "message": "User not found!"
+    if (isNaN(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid issue id",
       });
-
     }
 
+    const result = await issueService.updateIssueIntoDB(id, req.body);
+
+    if (!result) {
+      return res.status(404).json({
+        success: false,
+        message: "Issue not found!",
+      });
+    }
 
     res.status(200).json({
-      "status": "success",
-      "success": true,
-      "message": "Issue updated successfully",
-      "data": result,
+      success: true,
+      message: "Issue updated successfully",
+      data: result,
     });
 
   } catch (error: any) {
-
     res.status(500).json({
-        "status": "error",
-        "message": error.message,
-        "error": error
+      success: false,
+      message: error.message,
     });
-       
-
   }
 };
 
@@ -122,35 +123,58 @@ const updateIssue = async (req: Request, res: Response) => {
 const deleteIssue = async (req: Request, res: Response) => {
   try {
 
-     const user = req.user;
+    const id = Number(req.params.id);
+
+    if (isNaN(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid issue id",
+      });
+    }
 
     const result = await issueService.deleteIssueFromDB(
-      Number(req.params.id),
+      id,
       req.user
-      
     );
 
-    if(!result){
-            return res.status(404).json({
-                "status": "error",
-                "message": "Issue not found!"
-            });
-        }
+    if (!result) {
+      return res.status(404).json({
+        success: false,
+        message: "Issue not found!",
+      });
+    }
 
     res.status(200).json({
-     "status": "success",
-     "success": true,
-      "message": "Issue deleted successfully!",
+      success: true,
+      message: "Issue deleted successfully!",
+      data: result,
+    });
+
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+const getMetrics = async (req: Request, res: Response) => {
+  try {
+    const result = await issueService.getMetricsFromDB(req.user);
+
+    res.status(200).json({
+      success: true,
+      message: "Metrics fetched successfully",
       data: result,
     });
   } catch (error: any) {
     res.status(500).json({
-      "status": "error",
-      "message": error.message,
-      "error": error
+      success: false,
+      message: error.message,
     });
   }
 };
+
 
 export const issueController = {
   createIssue,
@@ -158,4 +182,5 @@ export const issueController = {
   getSingleIssue,
   updateIssue,
   deleteIssue,
+  getMetrics
 };
