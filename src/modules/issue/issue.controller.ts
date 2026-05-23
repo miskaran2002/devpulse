@@ -121,21 +121,26 @@ const updateIssue = async (req: Request, res: Response) => {
 
 const deleteIssue = async (req: Request, res: Response) => {
   try {
+
+     const user = req.user;
+
     const result = await issueService.deleteIssueFromDB(
-      Number(req.params.id)
+      Number(req.params.id),
+      req.user
+      
     );
 
     if(!result){
             return res.status(404).json({
                 "status": "error",
-                "message": "User not found!"
+                "message": "Issue not found!"
             });
         }
 
     res.status(200).json({
      "status": "success",
      "success": true,
-      "message": "User deleted successfully!",
+      "message": "Issue deleted successfully!",
       data: result,
     });
   } catch (error: any) {

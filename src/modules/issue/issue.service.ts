@@ -178,8 +178,22 @@ const updateIssueIntoDB = async (
   return result.rows[0];
 };
 
+
+
+
+
 // delete issue
-const deleteIssueFromDB = async (id: number) => {
+const deleteIssueFromDB = async (
+  id: number,
+  user: any
+) => {
+
+   // role check
+  if (user.role !== "maintainer") {
+    throw new Error(
+      "Forbidden access. Maintainer only."
+    );
+  }
 
   // check issue exists
   const existingIssue = await pool.query(

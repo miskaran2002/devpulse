@@ -10,3 +10,11 @@ POST -- 1779514579979 -- /api/issues
 POST -- 1779514584999 -- /api/issues
 DELETE -- 1779514679808 -- /api/issues/11
 DELETE -- 1779514685711 -- /api/issues/11
+DELETE -- 1779518184902 -- /api/issues/8
+POST -- 1779518249072 -- /api/auth/signup
+POST -- 1779518281373 -- /api/auth/login
+POST -- 1779518335757 -- /api/issues
+GET -- 1779518361120 -- /api/issues
+GET -- 1779518393570 -- /api/issues/2
+DELETE -- 1779518416232 -- /api/issues/8
+DELETE -- 1779518429023 -- /api/issues/12
