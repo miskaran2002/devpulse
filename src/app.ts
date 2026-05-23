@@ -5,8 +5,6 @@ import express,
     type Response
 } from 'express';
 
-import { pool } from './db';
-import { userRoute } from './modules/user/user.route';
 import { issueRoute } from './modules/issue/issue.route';
 import { authRoute } from './modules/auth/auth.route';
 
@@ -29,7 +27,7 @@ app.get('/', (req: Request, res: Response) => {
 
 
 
-app.use('/api/users',userRoute); 
+
 app.use('/api/issues',issueRoute);
 app.use('/api/auth',authRoute);
 
