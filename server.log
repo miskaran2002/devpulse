@@ -52,3 +52,9 @@ POST -- 1779523688260 -- /api/issues/metrics
 GET -- 1779523695018 -- /api/issues/metrics
 GET -- 1779523762292 -- /api/issues/metrics
 GET -- 1779523952784 -- /api/issues/metrics
+DELETE -- 1779527275646 -- /api/issues/15
+POST -- 1779527287044 -- /api/auth/login
+DELETE -- 1779527316315 -- /api/issues/15
+GET -- 1779527464526 -- /api/issues/16
+GET -- 1779527470649 -- /api/issues
+POST -- 1779527641202 -- /api/auth/login
