@@ -5,3 +5,8 @@ GET -- 1779512389373 -- /api/issues/7
 POST -- 1779513739540 -- /api/auth/signup
 POST -- 1779513806774 -- /api/auth/login
 POST -- 1779514090171 -- /api/issues
+POST -- 1779514572405 -- /api/issues
+POST -- 1779514579979 -- /api/issues
+POST -- 1779514584999 -- /api/issues
+DELETE -- 1779514679808 -- /api/issues/11
+DELETE -- 1779514685711 -- /api/issues/11
