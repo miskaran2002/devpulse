@@ -5,7 +5,12 @@ import { issueService } from "./issue.service";
 // create issue
 const createIssue = async (req: Request, res: Response) => {
   try {
-    const result = await issueService.createIssueIntoDB(req.body);
+
+     const payload = {
+      ...req.body,
+      reporter_id: req.user.id,
+    };
+    const result = await issueService.createIssueIntoDB(payload);
 
     res.status(201).json({
       success: true,

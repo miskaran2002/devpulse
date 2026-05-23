@@ -5,6 +5,7 @@ interface IIssue {
   title: string;
   description: string;
   type: "bug" | "feature_request";
+    reporter_id: number;
 }
 // reporter_id will come from req.user.id after auth implementation
 const createIssueIntoDB = async (payload: IIssue) => {
@@ -12,8 +13,7 @@ const createIssueIntoDB = async (payload: IIssue) => {
 
   // temporary reporter id
   // later this will come from req.user.id
-  const reporter_id = 1;
-  // const reporter_id = req.user.id;
+  const reporter_id = payload.reporter_id;
 
   const result = await pool.query(
     `
