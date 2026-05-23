@@ -14,6 +14,7 @@ import globalErrorHandler from './modules/middleware/golbalErrorHandler';
 const app: Application = express();
 const corsOptions = {
     origin: 'http://localhost:3000',
+    credentials: true
 
 }
 
