@@ -9,6 +9,7 @@ import { issueRoute } from './modules/issue/issue.route';
 import { authRoute } from './modules/auth/auth.route';
 
 import fs from 'fs';
+import logger from './modules/middleware/logger';
 
 
 const app: Application = express()
@@ -19,27 +20,9 @@ app.use(express.text());
 app.use(express.urlencoded({ extended: true }));
 
 
+// middleware 
 
-
-app.use((req, res, next) => {
-
-    console.log("Method -- Time --url:", req.method, Date.now(), req.url);
-
-    
-    const log = `${req.method} -- ${Date.now()} -- ${req.url}\n`;
-
-    fs.appendFile('server.log', log, (err) => {
-        if (err) {
-            console.log("Error writing to log file:", err);
-        }
-    });
-
-    
-    next();
-
-}
-
-);
+app.use(logger);
 
 
 
